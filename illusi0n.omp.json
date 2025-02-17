@@ -17,18 +17,13 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#00d0ff",
-          "style": "plain",
-          "template": "{{ .UserName }}:",
-          "type": "session"
-        },
-        {
           "foreground": "#00ff2a",
           "properties": {
             "folder_separator_icon": "/",
             "style": "full"
           },
           "style": "plain",
+          "template": " {{ .Path }}",
           "type": "path"
         },
         {
@@ -46,7 +41,7 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#00d0ff>on</> {{.UpstreamIcon }} {{ .HEAD }} {{if .BranchStatus }}{{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "template": "<#00d0ff> on</> {{.UpstreamIcon }} {{ .HEAD }} {{if .BranchStatus }}{{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
           "type": "git"
         },
         
