@@ -22,6 +22,8 @@ Move-Item $env:LOCALAPPDATA\nvim-data $env:LOCALAPPDATA\nvim-data.bak
 
 3. Terceiro Passo
 ```powershell
-git clone --depth 1 https://github.com/caiosaboia/powershellconfig.git $env:LOCALAPPDATA\nvim
+git clone --depth 1 https://github.com/caiosaboia/powershellconfig.git
+Move-Item C:~\powershellconfig\nvim\ $env:LOCALAPPDATA\nvim
 Remove-Item $env:LOCALAPPDATA\nvim\.git -Recurse -Force
-nvim```
+nvim
+```
