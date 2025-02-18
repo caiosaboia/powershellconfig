@@ -17,13 +17,14 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#00ff2a",
+          "foreground": "#50c5ff",
           "properties": {
-            "folder_separator_icon": "/",
-            "style": "full"
+            "folder_separator_icon": "\\",
+            "home_icon": " ",
+            "style": "letter"
           },
           "style": "plain",
-          "template": " {{ .Path }}",
+          "template": "  {{ .Path }}", 
           "type": "path"
         },
         {
