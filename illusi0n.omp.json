@@ -13,7 +13,7 @@
           
           "type": "python",
           "style": "powerline",
-          "foreground": "#ffffff",
+          "foreground": "#fdba36",
           "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }}{{ end }}{{ end }} "
         },
         {
