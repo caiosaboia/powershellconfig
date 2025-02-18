@@ -38,27 +38,9 @@ if vim.g.neovide then
   vim.g.neovide_floating_blur_amount_y = 2.0
   vim.g.neovide_scroll_animation_length = 0.1
   vim.g.neovide_cursor_trail_size = 0.8
-  -- vim.opt.guifont= {'MesloLGSDZ Nerd Font'}
-  vim.keymap.set('n', '<c-s-v>', '"+p')
-  vim.keymap.set('i', '<c-s-v>', '<c-r><c-o>+')
+  vim.opt.guifont= {'MesloLGL Nerd Font:h13'}
+  vim.cmd("cd " .. vim.fn.getcwd())
 
-  local default_font = vim.o.guifont
-  vim.keymap.set({ 'n', 'i' }, '<c-=>', function()
-    local fsize = vim.o.guifont:match('^.*:h([^:]*).*$')
-    fsize = tonumber(fsize) + 1
-    local gfont = vim.o.guifont:gsub(':h([^:]*)', ':h' .. fsize)
-    vim.o.guifont = gfont
-  end)
-
-  vim.keymap.set({ 'n', 'i' }, '<c-->', function()
-    local fsize = vim.o.guifont:match('^.*:h([^:]*).*$')
-    fsize = tonumber(fsize) - 1
-    local gfont = vim.o.guifont:gsub(':h([^:]*)', ':h' .. fsize)
-    vim.o.guifont = gfont
-  end)
-  vim.keymap.set({ 'n', 'i' }, '<c-0>', function()
-    vim.o.guifont = default_font
-  end)
 end
 
 
