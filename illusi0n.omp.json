@@ -3,24 +3,23 @@
   "blocks": [
     {
       "segments": [
-        { 
-          
-          "type": "python",
-          "style": "powerline",
-          "foreground": "#ffffff",
-          "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ end }} "
-        }
       ],
       "type": "rprompt"
     },
     {
       "alignment": "left",
       "segments": [
+        { 
+          
+          "type": "python",
+          "style": "powerline",
+          "foreground": "#ffffff",
+          "template": " {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }}{{ end }}{{ end }} "
+        },
         {
           "foreground": "#50c5ff",
           "properties": {
             "folder_separator_icon": "\\",
-            "home_icon": " ",
             "style": "letter"
           },
           "style": "plain",
@@ -42,14 +41,14 @@
             "fetch_upstream_icon": true
           },
           "style": "plain",
-          "template": "<#00d0ff> on</> {{.UpstreamIcon }} {{ .HEAD }} {{if .BranchStatus }}{{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
+          "template": "<#00ff2a> on</> {{.UpstreamIcon }} {{ .HEAD }} {{if .BranchStatus }}{{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
           "type": "git"
         },
         
         {
           "foreground": "#00ff2a",
           "style": "plain",
-          "template": "\u276f ",
+          "template": " \u276f ",
           "type": "text"
         }
       ],
