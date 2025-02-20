@@ -32,15 +32,36 @@ vim.g.molten_virt_lines_off_by_1 = true
 vim.g.slime_target = "kitty"
 
 if vim.g.neovide then
+  vim.cmd("cd $HOME")
+  vim.g.neovide_scale_factor = 1.0
   vim.g.neovide_refresh_rate = 60
-  vim.g.neovide_transparency = 0.9
+  -- vim.g.neovide_cursor_vfx_mode = "railgun"
+  vim.g.neovide_transparency = 0.8
   vim.g.neovide_floating_blur_amount_x = 2.0
   vim.g.neovide_floating_blur_amount_y = 2.0
   vim.g.neovide_scroll_animation_length = 0.1
   vim.g.neovide_cursor_trail_size = 0.8
-  vim.opt.guifont= {'MesloLGL Nerd Font:h13'}
-  vim.cmd("cd " .. vim.fn.getcwd())
+  vim.opt.guifont= {'FiraCode Nerd Font:h12'}
+  vim.keymap.set('n', '<c-s-v>', '"+p')
+	vim.keymap.set('i', '<c-s-v>', '<c-r><c-o>+')
 
+	local default_font = vim.o.guifont
+	vim.keymap.set({ 'n', 'i' }, '<c-=>', function()
+		local fsize = vim.o.guifont:match('^.*:h([^:]*).*$')
+		fsize = tonumber(fsize) + 1
+		local gfont = vim.o.guifont:gsub(':h([^:]*)', ':h' .. fsize)
+		vim.o.guifont = gfont
+	end)
+
+	vim.keymap.set({ 'n', 'i' }, '<c-->', function()
+		local fsize = vim.o.guifont:match('^.*:h([^:]*).*$')
+		fsize = tonumber(fsize) - 1
+		local gfont = vim.o.guifont:gsub(':h([^:]*)', ':h' .. fsize)
+		vim.o.guifont = gfont
+	end)
+	vim.keymap.set({ 'n', 'i' }, '<c-0>', function()
+		vim.o.guifont = default_font
+	end)
 end
 
 
@@ -52,6 +73,7 @@ require("nvim-web-devicons").set_icon({
     name = "Quarto"
   }
 })
+
 
 require('lsp-progress').setup({})
 
@@ -112,7 +134,7 @@ require('lualine').setup({
   options = {
     -- theme = 'horizon',
     component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
   },
   sections = {
     lualine_a = {'mode'},
@@ -123,6 +145,11 @@ require('lualine').setup({
     lualine_z = {'progress','location'}
   },
 })
+
+require("toggleterm").setup{
+  shell = "pwsh.exe" -- Para PowerShell moderno (PowerShell 7+)
+  -- shell = "powershell.exe" -- Para o PowerShell clássico (versão 5.x)
+}
 
 -- Define o bloco de texto como uma tabela de linhas
 local quarto_header = {
