@@ -5,10 +5,9 @@
 # See https://ch0.co/tab-completion for details.
 
 Invoke-Expression (&starship init powershell)
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
-Import-Module Get-ChildItemColor
 Import-Module PSReadLine
-Import-Module Terminal-Icons
 
 #AUTOCOMPLETE
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
@@ -16,7 +15,7 @@ Set-PSReadLineOption -BellStyle None
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadLineOption -PredictionViewStyle InlineView   
 Set-PSReadLineOption -Colors @{
-  Command     = 'Blue'
+  Command     = 'Cyan'
   # Parameter = 'Green'
   # Operator  = 'Yellow'
   Variable  = 'Magenta'
@@ -36,19 +35,33 @@ if (Test-Path($ChocolateyProfile))
 }
 
 #ENVS
-$env:GEMINI_API_KEY = ""
+$env:GEMINI_API_KEY=
 
-
-function ll()
+#FUNCTIONS
+function LL()
 { Get-ChildItem | Format-Table
 }
-function la()
+function LA()
 { Get-ChildItem | Format-Wide
 }
-function lb()
+function LB()
 { Get-ChildItem | Format-List
 }
+function touch {New-Item -ItemType File -Force @args}
 
+function ezinha { eza  --icons @args }
+
+function batinha { bat @args }
+
+function zoxidinha { z @args }
+
+#ALIASES
+Set-Alias ls ezinha
+Set-Alias cat batinha
+Set-Alias cdz zoxidinha
 Set-Alias n nvim
-Set-Alias vim nvim
+Set-Alias rstudio #caminho absoluto do .exe
+Set-Alias sumatrapdf #caminho absoluto do .exe
+Set-Alias qdrant #caminho absoluto do .exe
+
 
