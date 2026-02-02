@@ -49,11 +49,11 @@ function LB()
 }
 function touch {New-Item -ItemType File -Force @args}
 
-function ezinha { eza  --icons @args }
+function ezinha { eza  --icons @args } # cargo install eza
 
-function batinha { bat @args }
+function batinha { bat @args } # cargo install bat
 
-function zoxidinha { z @args }
+function zoxidinha { z @args } # cargo install zoxide
 
 #ALIASES
 Set-Alias ls ezinha
