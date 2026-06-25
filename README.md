@@ -61,3 +61,10 @@ Instalar o fzf, fd command, cat, eza, zeoxide (cargo)
 instalar o neovim
 
 instalar o FLM [FastFlowLLM](https://github.com/FastFlowLM/FastFlowLM) 
+
+instalar o antigravity-cli, antigravity-IDE, antigravity desktop, claudecode, opencode, flowlauncher, everything, powertoys, windhawk, tailscale, sumatrapdf, postgreSQL, Neo4J, MSIAfterburne, Wyspr Flow, Wintoys
+
+Rode em powershell5.1 (Disable AI)
+```powershell
+& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/zoicware/RemoveWindowsAI/main/RemoveWindowsAi.ps1")))
+```
