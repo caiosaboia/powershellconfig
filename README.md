@@ -59,3 +59,5 @@ Segue os passo a passo.
 Instalar o fzf, fd command, cat, eza, zeoxide (cargo)
 
 instalar o neovim
+
+instalar o FLM [FastFlowLLM](https://github.com/FastFlowLM/FastFlowLM) 
