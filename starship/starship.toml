@@ -1,16 +1,14 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+command_timeout = 2000
+
 format = """
 $hostname\
-[](red)\
 $os\
 $username\
-[](bg:peach fg:red)\
 $directory\
-[](bg:yellow fg:peach)\
 $git_branch\
 $git_status\
-[](fg:yellow bg:green)\
 $c\
 $rust\
 $golang\
@@ -21,12 +19,11 @@ $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:green bg:sapphire)\
+$docker_context\
 $conda\
-[](fg:sapphire bg:lavender)\
 $time\
-[ ](fg:lavender)\
 $cmd_duration\
+$shell\
 $line_break\
 $character"""
 
@@ -34,7 +31,17 @@ palette = 'catppuccin_mocha'
 
 [os]
 disabled = false
-style = "bg:red fg:crust"
+style = "bold red"
+format = "[$symbol]($style) "
+
+[shell]
+fish_indicator = '󰈺'
+powershell_indicator = 'pwsh'
+unknown_indicator = 'mystery shell'
+nu_indicator = 'nushell'
+style = 'bold teal'
+format = '[$indicator]($style) '
+disabled = false
 
 [os.symbols]
 Windows = ""
@@ -60,13 +67,13 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = false
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
-format = '[ $user]($style)'
+style_user = "bold red"
+style_root = "bold red"
+format = '[$user]($style) '
 
 [hostname]
 ssh_only = true # Só mostra se estiver via SSH
-format = 'via [$ssh_symbol$hostname]($style) '
+format = '[via ](subtext0)[$ssh_symbol$hostname]($style) '
 style = 'dimmed bold text'
 trim_at = '.local'
 disabled = false
@@ -74,8 +81,8 @@ ssh_symbol = '🌐 '
 # hostname = ''
 
 [directory]
-style = "bg:peach fg:crust"
-format = "[ $path ]($style)"
+style = "bold peach"
+format = "[in ](subtext0)[$path]($style) "
 truncation_length = 3
 truncation_symbol = "…/"
 
@@ -88,79 +95,81 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:yellow"
-format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
+style = "bold yellow"
+format = '[on ](subtext0)[$symbol $branch]($style) '
 
 [git_status]
-style = "bg:yellow"
-format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+style = "bold yellow"
+format = '([$all_status$ahead_behind]($style) )'
 
 [nodejs]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [bun]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [c]
-symbol = " "
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+symbol = ""
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [rust]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
+detect_files = ["Cargo.toml", "Cargo.lock", "rust-toolchain", "rust-toolchain.toml"]
+detect_extensions = ["rs"]
 
 [golang]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [php]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [java]
-symbol = " "
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+symbol = ""
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [kotlin]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [haskell]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)]($style) '
 
 [python]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
+style = "bold green"
+format = '[via ](subtext0)[$symbol ($version)( \(#$virtualenv\))]($style) '
 
 [docker_context]
 symbol = ""
-style = "bg:sapphire"
-format = '[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)'
+style = "bold sapphire"
+format = '[with ](subtext0)[$symbol ($context)]($style) '
 
 [conda]
-symbol = "  "
-style = "fg:crust bg:sapphire"
-format = '[$symbol$environment ]($style)'
+symbol = ""
+style = "bold sapphire"
+format = '[with ](subtext0)[$symbol $environment]($style) '
 ignore_base = false
 
 [time]
 disabled = true
 time_format = "%R"
-style = "bg:lavender"
-format = '[[  $time ](fg:crust bg:lavender)]($style)'
+style = "bold lavender"
+format = '[at ](subtext0)[ $time]($style) '
 
 [line_break]
 disabled = false
@@ -176,8 +185,8 @@ vimcmd_visual_symbol = '[❮](bold fg:yellow)'
 
 [cmd_duration]
 show_milliseconds = false
-format = " in $duration "
-style = "bg:lavender"
+format = "[took ](subtext0)[$duration]($style) "
+style = "bold lavender"
 disabled = false
 show_notifications = true
 min_time_to_notify = 45000
