@@ -372,20 +372,6 @@ if (Test-Path $PsmuxScript) {
         }
     }
     Set-Alias tml Select-TmuxSession -Option AllScope -Scope Global -Force
-
-    # Atalho de teclado interativo (Ctrl+S / Alt+S) para abrir sessoes do tmux via FZF
-    if (Get-Module -ListAvailable PSReadLine) {
-        Set-PSReadLineKeyHandler -Key 'Ctrl+s' -ScriptBlock {
-            [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
-            Select-TmuxSession
-            [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-        }
-        Set-PSReadLineKeyHandler -Chord 'Alt+s' -ScriptBlock {
-            [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
-            Select-TmuxSession
-            [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
-        }
-    }
 }
 
 # ------------------------------------------------------------------------------
