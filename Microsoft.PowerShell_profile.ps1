@@ -102,8 +102,8 @@ if (Get-Command __zoxide_zi -ErrorAction SilentlyContinue) {
 }
 
 # Antigravity CLI Brain Navigator
-Invoke-CachedInit -Name "brain" -CommandName "brain" -Generator {
-    (& brain init powershell | Out-String)
+Invoke-CachedInit -Name "agy-brain" -CommandName "agy-brain" -Generator {
+    (& agy-brain init powershell | Out-String)
 }
 
 # CLI Completions em Cache (gh, uv, docker, winget)
@@ -364,14 +364,9 @@ $PsmuxScript = Join-Path $Script:RepoRoot "scripts\Start-PsmuxSession.ps1"
 if (Test-Path $PsmuxScript) {
     . $PsmuxScript
     function global:tm {
-        param([string]$Session)
-        if ($Session) {
-            Start-Psmux -Name $Session
-        } else {
-            Select-TmuxSession
-        }
+        param([string]$Session = "main")
+        Start-Psmux -Name $Session
     }
-    Set-Alias tml Select-TmuxSession -Option AllScope -Scope Global -Force
 }
 
 # ------------------------------------------------------------------------------

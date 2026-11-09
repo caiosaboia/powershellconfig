@@ -81,55 +81,6 @@ function Start-Psmux {
     tmux attach -t "$Name"
 }
 
-function Select-TmuxSession {
-    <#
-    .SYNOPSIS
-        Menu interativo FZF para listar, inspecionar janelas e conectar a sessoes do tmux.
-    #>
-    [CmdletBinding()]
-    param()
-
-    $cmd = Get-Command tmux -ErrorAction SilentlyContinue
-    if (-not $cmd) {
-        Write-Warning "tmux nao encontrado no PATH."
-        return
-    }
-
-    $sessionsRaw = @(tmux list-sessions 2>$null)
-    if (-not $sessionsRaw -or $sessionsRaw.Count -eq 0) {
-        Write-Host "Nenhuma sessao tmux ativa no momento." -ForegroundColor Yellow
-        $novo = Read-Host "Deseja criar uma nova sessao? Digite o nome (ou Enter para cancelar)"
-        if ($novo) {
-            Start-Psmux -Name $novo
-        }
-        return
-    }
-
-    if (-not (Get-Command fzf -ErrorAction SilentlyContinue)) {
-        # Fallback sem fzf
-        Write-Host "Sessoes ativas:" -ForegroundColor Cyan
-        $sessionsRaw | ForEach-Object { Write-Host "  $_" }
-        return
-    }
-
-    # FZF interativo com preview das janelas da sessao selecionada e atalho Ctrl+X para fechar sessao
-    $fzfPrompt = "tmux-sessions> "
-    $previewCmd = 'tmux list-windows -t {1} 2>$null'
-    
-    $selected = $sessionsRaw | fzf `
-        --prompt="$fzfPrompt" `
-        --header="Enter: Conectar | Ctrl+D: Deletar sessao | Esc: Cancelar" `
-        --delimiter=":" `
-        --preview="$previewCmd" `
-        --preview-window="right:45%:wrap" `
-        --bind="ctrl-d:execute(tmux kill-session -t {1})+reload(tmux list-sessions 2>$null)"
-
-    if ($selected -and ($selected -match "^([^:]+):")) {
-        $targetSession = $matches[1]
-        Start-Psmux -Name $targetSession
-    }
-}
-
 if ($MyInvocation.InvocationName -ne '.' -and $MyInvocation.InvocationName -ne '&') {
     Start-Psmux -Name $SessionName
 }

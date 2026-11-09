@@ -30,8 +30,7 @@ Configuração moderna, unificada e de alta performance para **PowerShell 7**, *
   - `lg`: Interface Git via `lazygit`.
   - `n`: Editor `neovim`.
   - `venva`: Ativação automática de `.venv` ou `venv` (ou `venva -Create` com `uv venv`).
-  - `tm`: Gerenciador de sessões `psmux`/`tmux` (sem argumentos abre seletor interativo com **FZF** e preview de janelas; `tm <nome>` conecta ou cria direto).
-  - `tml`: Atalho direto para listar e trocar de sessão via FZF (`Select-TmuxSession`).
+  - `tm`: Gerenciador de sessões persistentes `psmux`/`tmux`.
   - `reload`: Limpa caches e recarrega o perfil na hora.
   - `ep`: Atalho para abrir a pasta de configurações no Neovim.
 - 🔒 **Segurança e Segredos:**
