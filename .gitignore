@@ -1,0 +1,15 @@
+# Local secret files & API keys
+secrets.ps1
+.env
+.env.*
+*.local.ps1
+
+# Dynamic runtime caches
+.cache/
+*.tmp
+
+# Windows / Editor artifacts
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
