@@ -16,9 +16,10 @@ Configuração moderna, unificada e de alta performance para **PowerShell 7**, *
   - Prompt com [Starship](https://starship.rs) completo (Git status, runtime versions, diretório inteligente).
   - Syntax highlighting do `PSReadLine` calibrado com as cores Mocha.
   - Windows Terminal com tema, fontes Nerd Font e atalhos de janelas estilo Vim.
-- 🔍 **Busca Fuzzy Interativa (`PSFzf`):**
+- 🔍 **Busca Fuzzy Interativa (`PSFzf` & Tmux):**
   - `Ctrl + R`: Busca fuzzy reversa de histórico de comandos.
   - `Ctrl + T`: Localização fuzzy de arquivos via `fd` com preview syntax-highlighted via `bat`.
+  - `Ctrl + S` (ou `Alt + S`): Menu interativo FZF de sessões ativas do **Tmux** com preview de janelas.
   - `Alt + C`: Navegação fuzzy entre pastas com visualização em árvore via `eza`.
 - ⌨️ **Comandos & Aliases Modernos:**
   - `ls`, `la`: Listagem colorida com ícones via `eza`.
