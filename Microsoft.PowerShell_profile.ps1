@@ -81,9 +81,39 @@ Invoke-CachedInit -Name "agy-brain" -CommandName "agy-brain" -Generator {
     (& agy-brain init powershell | Out-String)
 }
 
+# CLI Completions em Cache (gh, uv, docker, winget)
+Invoke-CachedInit -Name "completion-gh" -CommandName "gh" -Generator {
+    (& gh completion -s powershell | Out-String)
+}
+
+Invoke-CachedInit -Name "completion-uv" -CommandName "uv" -Generator {
+    (& uv generate-shell-completion powershell | Out-String)
+}
+
+Invoke-CachedInit -Name "completion-docker" -CommandName "docker" -Generator {
+    (& docker completion powershell | Out-String)
+}
+
+# Winget Native Argument Completer
+if (Get-Command winget -ErrorAction SilentlyContinue) {
+    Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
+        param($wordToComplete, $commandAst, $cursorPosition)
+        [Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
+        $Local:word = $wordToComplete.Replace('"', '""')
+        $Local:ast = $commandAst.ToString().Replace('"', '""')
+        winget complete --word="$Local:word" --commandline "$Local:ast" --position $cursorPosition | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
+    }
+}
+
 # ------------------------------------------------------------------------------
-# 3. PSReadLine & Cores Catppuccin Mocha
+# 3. PSReadLine, CompletionPredictor & Cores Catppuccin Mocha
 # ------------------------------------------------------------------------------
+if (Get-Module -ListAvailable CompletionPredictor) {
+    Import-Module CompletionPredictor -ErrorAction SilentlyContinue
+}
+
 if (Get-Module -ListAvailable PSReadLine) {
     Import-Module PSReadLine -ErrorAction SilentlyContinue
 

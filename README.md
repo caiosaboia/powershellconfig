@@ -8,7 +8,10 @@ Configuração moderna, unificada e de alta performance para **PowerShell 7**, *
 
 - ⚡ **Inicialização Ultra-rápida (<20ms de script execution):** 
   - *Lazy-loading* inteligente para **Conda/Miniforge3** (economiza ~900ms a cada abertura de aba).
-  - Cache dinâmico em disco (`.cache/`) para scripts de inicialização do `starship`, `zoxide` e `agy-brain`.
+  - Cache dinâmico em disco (`.cache/`) para scripts de inicialização do `starship`, `zoxide`, `agy-brain` e CLI completions (`gh`, `uv`, `docker`).
+- 🤖 **Predição & Autocomplete Dinâmico em Tempo Real:**
+  - Módulo oficial **`CompletionPredictor`** integrado ao `PSReadLine` (`InlineView` e `ListView` com tecla `F2`).
+  - Completions em cache nativo para **GitHub CLI (`gh`)**, **Astral uv (`uv`)**, **Docker** e **Windows Package Manager (`winget`)**.
 - 🎨 **Visual Consistente (Catppuccin Mocha):**
   - Prompt com [Starship](https://starship.rs) completo (Git status, runtime versions, diretório inteligente).
   - Syntax highlighting do `PSReadLine` calibrado com as cores Mocha.
@@ -71,7 +74,7 @@ cd "$HOME\projetos\powershellconfig"
 ```
 
 O `setup.ps1` irá automaticamente:
-1. Instalar o módulo `PSFzf` (caso ainda não esteja presente).
+1. Instalar os módulos `PSFzf` e `CompletionPredictor` (caso ainda não estejam presentes).
 2. Criar seu `secrets.ps1` local a partir de `secrets.example.ps1`.
 3. Sincronizar `starship.toml` em `~/.config/starship.toml`.
 4. Sincronizar `settings.json` do Windows Terminal (com backup automático do atual).

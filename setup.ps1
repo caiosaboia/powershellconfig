@@ -17,8 +17,8 @@ $ErrorActionPreference = 'Stop'
 $RepoRoot = $PSScriptRoot
 Write-Host "=== Iniciando Setup do PowerShell ($RepoRoot) ===" -ForegroundColor Cyan
 
-# 1. Modulo PSFzf
-Write-Host "`n[1/5] Verificando modulo PSFzf..." -ForegroundColor Yellow
+# 1. Modulos PowerShell (PSFzf e CompletionPredictor)
+Write-Host "`n[1/6] Verificando modulo PSFzf..." -ForegroundColor Yellow
 if (-not (Get-Module -ListAvailable PSFzf)) {
     Write-Host "Instalando PSFzf da PSGallery..." -ForegroundColor Green
     Install-Module -Name PSFzf -Scope CurrentUser -Force -SkipPublisherCheck
@@ -26,8 +26,16 @@ if (-not (Get-Module -ListAvailable PSFzf)) {
     Write-Host "PSFzf ja instalado." -ForegroundColor Green
 }
 
-# 2. Configurar secrets.ps1
-Write-Host "`n[2/5] Verificando secrets.ps1..." -ForegroundColor Yellow
+Write-Host "`n[2/6] Verificando modulo CompletionPredictor..." -ForegroundColor Yellow
+if (-not (Get-Module -ListAvailable CompletionPredictor)) {
+    Write-Host "Instalando CompletionPredictor da PSGallery..." -ForegroundColor Green
+    Install-Module -Name CompletionPredictor -Scope CurrentUser -Force -SkipPublisherCheck
+} else {
+    Write-Host "CompletionPredictor ja instalado." -ForegroundColor Green
+}
+
+# 3. Configurar secrets.ps1
+Write-Host "`n[3/6] Verificando secrets.ps1..." -ForegroundColor Yellow
 $secretsFile = Join-Path $RepoRoot "secrets.ps1"
 $exampleFile = Join-Path $RepoRoot "secrets.example.ps1"
 if (-not (Test-Path $secretsFile) -and (Test-Path $exampleFile)) {
@@ -37,8 +45,8 @@ if (-not (Test-Path $secretsFile) -and (Test-Path $exampleFile)) {
     Write-Host "Arquivo secrets.ps1 ja existe ou configurado." -ForegroundColor Green
 }
 
-# 3. Configurar Starship
-Write-Host "`n[3/5] Sincronizando Starship..." -ForegroundColor Yellow
+# 4. Configurar Starship
+Write-Host "`n[4/6] Sincronizando Starship..." -ForegroundColor Yellow
 $configDir = "$HOME\.config"
 if (-not (Test-Path $configDir)) {
     New-Item -ItemType Directory -Path $configDir -Force | Out-Null
@@ -51,8 +59,8 @@ if (Test-Path $starshipSource) {
     Write-Host "starship.toml sincronizado em: $starshipTarget" -ForegroundColor Green
 }
 
-# 4. Sincronizar Windows Terminal
-Write-Host "`n[4/5] Sincronizando Windows Terminal settings.json..." -ForegroundColor Yellow
+# 5. Sincronizar Windows Terminal
+Write-Host "`n[5/6] Sincronizando Windows Terminal settings.json..." -ForegroundColor Yellow
 $wtDir = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 $wtTarget = Join-Path $wtDir "settings.json"
 $wtSource = Join-Path $RepoRoot "wterminal\settings.json"
@@ -67,8 +75,8 @@ if (Test-Path $wtDir) {
     Write-Warning "Diretorio do Windows Terminal nao encontrado. Pulando etapa de settings.json."
 }
 
-# 5. Configurar $PROFILE
-Write-Host "`n[5/5] Apontando `$PROFILE para o repositorio..." -ForegroundColor Yellow
+# 6. Configurar $PROFILE
+Write-Host "`n[6/6] Apontando `$PROFILE para o repositorio..." -ForegroundColor Yellow
 $profileDirs = @(
     "$HOME\Documents\PowerShell",
     "$HOME\.config\powershell"
