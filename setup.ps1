@@ -90,6 +90,10 @@ foreach ($dir in $profileDirs) {
 $repoProfilePath = Join-Path $RepoRoot "Microsoft.PowerShell_profile.ps1"
 $loaderContent = @"
 # Loader automatico gerado pelo setup de powershellconfig
+if ([Console]::IsInputRedirected -or [Console]::IsOutputRedirected) {
+    # Em sessoes nao-interativas (como subshells do agy-cli), evita pendurar TUI/Starship/PSReadLine
+    return
+}
 . "$repoProfilePath"
 "@
 

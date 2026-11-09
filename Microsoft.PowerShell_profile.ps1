@@ -4,9 +4,34 @@
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# 1. Guard contra execucao duplicada
+# 1. Guard contra execucao duplicada e sessoes nao-interativas
 # ------------------------------------------------------------------------------
 if ($global:UserProfileLoaded) { return }
+
+# Evita travar subshells headless de ferramentas de automacao e agentes (ex: Antigravity CLI, VS Code tasks, CI)
+$isNonInteractive = $false
+try {
+    if ([Console]::IsOutputRedirected -or [Console]::IsInputRedirected) {
+        $isNonInteractive = $true
+    }
+} catch {
+    $isNonInteractive = $true
+}
+
+if ($isNonInteractive -or $env:TERM_PROGRAM -eq 'vscode' -and $env:VSCODE_NONINTERACTIVE) {
+    # Em sessoes nao-interativas, garante apenas ferramentas de runtime no PATH sem carregar modulos TUI/readline
+    $miniforge = "C:\Users\cocad\miniforge3"
+    if (Test-Path $miniforge) {
+        $paths = @("$miniforge\Library\bin", "$miniforge\Scripts")
+        foreach ($p in $paths) {
+            if ((Test-Path $p) -and ($env:PATH -split ';' -notcontains $p)) {
+                $env:PATH = "$p;$env:PATH"
+            }
+        }
+    }
+    return
+}
+
 $global:UserProfileLoaded = $true
 
 $Script:RepoRoot = "C:\Users\cocad\projetos\powershellconfig"
