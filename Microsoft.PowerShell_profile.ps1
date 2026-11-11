@@ -102,8 +102,8 @@ if (Get-Command __zoxide_zi -ErrorAction SilentlyContinue) {
 }
 
 # Antigravity CLI Brain Navigator
-Invoke-CachedInit -Name "agy-brain" -CommandName "agy-brain" -Generator {
-    (& agy-brain init powershell | Out-String)
+Invoke-CachedInit -Name "brain" -CommandName "brain" -Generator {
+    (& brain init powershell | Out-String)
 }
 
 # CLI Completions em Cache (gh, uv, docker, winget)
