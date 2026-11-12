@@ -169,7 +169,7 @@ if (Get-Module -ListAvailable PSReadLine) {
         Keyword            = '#b4befe' # Lavender
         Error              = '#f38ba8' # Red
         Default            = '#cdd6f4' # Text
-        InlinePrediction   = '#585b70' # Surface2
+        InlinePrediction   = '#9399b2' # Overlay2 (cinza claro com boa visibilidade)
     }
 }
 
