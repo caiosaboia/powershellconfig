@@ -17,6 +17,17 @@ $ErrorActionPreference = 'Stop'
 $RepoRoot = $PSScriptRoot
 Write-Host "=== Iniciando Setup do PowerShell ($RepoRoot) ===" -ForegroundColor Cyan
 
+# 0. Instalar utilitarios de linha de comando no PATH local (~/.local/bin)
+$localBin = "$HOME\.local\bin"
+if (-not (Test-Path $localBin)) {
+    New-Item -ItemType Directory -Path $localBin -Force | Out-Null
+}
+$reloadCmdSource = Join-Path $RepoRoot "scripts\reload.cmd"
+if (Test-Path $reloadCmdSource) {
+    Copy-Item $reloadCmdSource (Join-Path $localBin "reload.cmd") -Force
+    Write-Host "Comando executavel 'reload.cmd' instalado em $localBin" -ForegroundColor Green
+}
+
 # 1. Modulos PowerShell (PSFzf e CompletionPredictor)
 Write-Host "`n[1/6] Verificando modulo PSFzf..." -ForegroundColor Yellow
 if (-not (Get-Module -ListAvailable PSFzf)) {
