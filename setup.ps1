@@ -70,8 +70,8 @@ if (Test-Path $starshipSource) {
     Write-Host "starship.toml sincronizado em: $starshipTarget" -ForegroundColor Green
 }
 
-# 5. Sincronizar Windows Terminal
-Write-Host "`n[5/6] Sincronizando Windows Terminal settings.json..." -ForegroundColor Yellow
+# 5. Sincronizar Windows Terminal & Noctty
+Write-Host "`n[5/7] Sincronizando Windows Terminal settings.json..." -ForegroundColor Yellow
 $wtDir = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 $wtTarget = Join-Path $wtDir "settings.json"
 $wtSource = Join-Path $RepoRoot "wterminal\settings.json"
@@ -86,8 +86,30 @@ if (Test-Path $wtDir) {
     Write-Warning "Diretorio do Windows Terminal nao encontrado. Pulando etapa de settings.json."
 }
 
-# 6. Configurar $PROFILE
-Write-Host "`n[6/6] Apontando `$PROFILE para o repositorio..." -ForegroundColor Yellow
+# 6. Sincronizar Noctty Terminal & Scripts do PSMux
+Write-Host "`n[6/7] Sincronizando Noctty e scripts de notificacao..." -ForegroundColor Yellow
+$nocttyDir = "$env:LOCALAPPDATA\noctty"
+$nocttySource = Join-Path $RepoRoot "noctty\config.ghostty"
+if (Test-Path $nocttySource) {
+    if (-not (Test-Path $nocttyDir)) {
+        New-Item -ItemType Directory -Path $nocttyDir -Force | Out-Null
+    }
+    Copy-Item $nocttySource (Join-Path $nocttyDir "config.ghostty") -Force
+    Write-Host "Noctty config.ghostty sincronizado com sucesso." -ForegroundColor Green
+}
+
+$psmuxScriptsDir = "$HOME\.psmux\scripts"
+$notifierSource = Join-Path $RepoRoot "scripts\Send-WindowsNotification.ps1"
+if (Test-Path $notifierSource) {
+    if (-not (Test-Path $psmuxScriptsDir)) {
+        New-Item -ItemType Directory -Path $psmuxScriptsDir -Force | Out-Null
+    }
+    Copy-Item $notifierSource (Join-Path $psmuxScriptsDir "Send-WindowsNotification.ps1") -Force
+    Write-Host "Script Send-WindowsNotification.ps1 sincronizado em ~/.psmux/scripts" -ForegroundColor Green
+}
+
+# 7. Configurar $PROFILE
+Write-Host "`n[7/7] Apontando `$PROFILE para o repositorio..." -ForegroundColor Yellow
 $profileDirs = @(
     "$HOME\Documents\PowerShell",
     "$HOME\.config\powershell"

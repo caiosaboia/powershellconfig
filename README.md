@@ -33,6 +33,9 @@ Configuração moderna, unificada e de alta performance para **PowerShell 7**, *
   - `tm`: Gerenciador de sessões persistentes `psmux`/`tmux`.
   - `reload`: Limpa caches e recarrega o perfil na hora.
   - `ep`: Atalho para abrir a pasta de configurações no Neovim.
+- 🔔 **Notificações Integradas (Windows Toast, PSMux & Noctty):**
+  - Integração com emuladores modernos como o **Noctty** (Ghostty nativo Windows) com suporte a som de sino, foco e atenção na barra de tarefas (`bell-features = system,attention,title`).
+  - Script nativo de notificações Toast do Windows (`Send-WindowsNotification.ps1`) com proteção anti-flood, integrado aos hooks de alerta do `psmux`.
 - 🔒 **Segurança e Segredos:**
   - Suporte a `secrets.ps1` (ignorado pelo `.gitignore`) para salvar chaves de API (`GEMINI_API_KEY`, etc.) sem risco de commitar nem sobrescrever variáveis do sistema.
 
@@ -43,7 +46,10 @@ Configuração moderna, unificada e de alta performance para **PowerShell 7**, *
 ```text
 powershellconfig/
 ├── .cache/                            # Caches gerados em tempo de execução (gitignored)
+├── noctty/
+│   └── config.ghostty                 # Configuração do Noctty Terminal (Splits, Notificações, Cores)
 ├── scripts/
+│   ├── Send-WindowsNotification.ps1   # Notificador nativo Toast do Windows (WinRT)
 │   └── Start-PsmuxSession.ps1         # Gerenciador de sessões tmux/psmux
 ├── starship/
 │   └── starship.toml                  # Configuração do Starship (Catppuccin Mocha)
