@@ -34,8 +34,10 @@ Configuração moderna, unificada e de alta performance para **PowerShell 7**, *
   - `reload`: Limpa caches e recarrega o perfil na hora.
   - `ep`: Atalho para abrir a pasta de configurações no Neovim.
 - 🔔 **Notificações Integradas (Windows Toast, PSMux & Noctty):**
-  - Integração com emuladores modernos como o **Noctty** (Ghostty nativo Windows) com suporte a som de sino, foco e atenção na barra de tarefas (`bell-features = system,attention,title`).
-  - Script nativo de notificações Toast do Windows (`Send-WindowsNotification.ps1`) com proteção anti-flood, integrado aos hooks de alerta do `psmux`.
+  - Notificações automáticas para comandos demorados (>= 10s) via hook de prompt no PowerShell com tempo decorrido.
+  - Emissão de notificações nativas para o **Noctty** via sequências `OSC 777` envelopadas em DCS Passthrough para o `psmux`.
+  - Função auxiliar `notify` disponível no shell (ex: `cargo test; notify`).
+  - Script Toast WinRT do Windows (`Send-WindowsNotification.ps1`) com proteção anti-flood para hooks de servidor do `psmux` (`alert-bell`, `alert-activity`).
 - 🔒 **Segurança e Segredos:**
   - Suporte a `secrets.ps1` (ignorado pelo `.gitignore`) para salvar chaves de API (`GEMINI_API_KEY`, etc.) sem risco de commitar nem sobrescrever variáveis do sistema.
 
@@ -49,6 +51,7 @@ powershellconfig/
 ├── noctty/
 │   └── config.ghostty                 # Configuração do Noctty Terminal (Splits, Notificações, Cores)
 ├── scripts/
+│   ├── Send-TerminalNotification.ps1  # Notificador via OSC 777 Passthrough para Noctty
 │   ├── Send-WindowsNotification.ps1   # Notificador nativo Toast do Windows (WinRT)
 │   └── Start-PsmuxSession.ps1         # Gerenciador de sessões tmux/psmux
 ├── starship/

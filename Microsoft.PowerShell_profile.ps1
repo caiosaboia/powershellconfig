@@ -1,4 +1,4 @@
-# ==============================================================================
+﻿# ==============================================================================
 # PowerShell Profile - Unified & High Performance
 # Repo: C:\Users\cocad\projetos\powershellconfig
 # ==============================================================================
@@ -376,3 +376,69 @@ $LocalSecrets = Join-Path $Script:RepoRoot "secrets.ps1"
 if (Test-Path $LocalSecrets) {
     . $LocalSecrets
 }
+
+# ------------------------------------------------------------------------------
+# 10. Notificacoes Integradas (Noctty OSC 777 Passthrough & Comandos Demorados)
+# ------------------------------------------------------------------------------
+function global:Send-TerminalNotification {
+    param(
+        [string]$Title = "Noctty",
+        [string]$Message = "Comando finalizado!"
+    )
+    $cleanTitle = ($Title -replace '[;\r\n]', ' ').Trim()
+    $cleanMessage = ($Message -replace '[;\r\n]', ' ').Trim()
+
+    $osc777 = "`e]777;notify;$cleanTitle;$cleanMessage`e\"
+
+    if ($env:TMUX -or $env:PSMUX) {
+        $escapedOsc = $osc777 -replace "`e", "`e`e"
+        [Console]::Write("`ePtmux;$escapedOsc`e\")
+    } else {
+        [Console]::Write($osc777)
+    }
+}
+Set-Alias notify global:Send-TerminalNotification -Option AllScope -Scope Global -Force
+
+# Hook de cronometragem de comandos interativos
+if (Get-Module PSReadLine) {
+    Set-PSReadLineOption -CommandValidationHandler {
+        param($commandAst)
+        if ($commandAst) {
+            $global:__cmd_text = $commandAst.Extent.Text
+            $global:__cmd_stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+        }
+    }
+}
+
+# Hook no prompt para notificar comandos demorados (>= 10 segundos)
+$Script:OrigPrompt = $Function:prompt
+function global:prompt {
+    if ($global:__cmd_stopwatch -and $global:__cmd_stopwatch.IsRunning) {
+        $global:__cmd_stopwatch.Stop()
+        $elapsed = [math]::Round($global:__cmd_stopwatch.Elapsed.TotalSeconds)
+        $cmdText = $global:__cmd_text
+        $global:__cmd_stopwatch = $null
+        $global:__cmd_text = $null
+
+        if ($elapsed -ge 10 -and -not [string]::IsNullOrWhiteSpace($cmdText)) {
+            if ($cmdText.Length -gt 40) {
+                $cmdText = $cmdText.Substring(0, 37) + "..."
+            }
+            $title = "Noctty"
+            if ($env:PSMUX -or $env:TMUX) {
+                $sess = if (Get-Command psmux -ErrorAction SilentlyContinue) {
+                    (psmux display-message -p '#S:#I' 2>$null)
+                } else { "psmux" }
+                if ($sess) { $title = "PSMux [$sess]" }
+            }
+            Send-TerminalNotification -Title $title -Message "'$cmdText' concluído em ${elapsed}s"
+        }
+    }
+
+    if ($Script:OrigPrompt) {
+        & $Script:OrigPrompt
+    } else {
+        "PS $($executionContext.SessionState.Path.CurrentLocation)> "
+    }
+}
+

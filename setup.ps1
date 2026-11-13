@@ -99,13 +99,20 @@ if (Test-Path $nocttySource) {
 }
 
 $psmuxScriptsDir = "$HOME\.psmux\scripts"
+if (-not (Test-Path $psmuxScriptsDir)) {
+    New-Item -ItemType Directory -Path $psmuxScriptsDir -Force | Out-Null
+}
+
 $notifierSource = Join-Path $RepoRoot "scripts\Send-WindowsNotification.ps1"
 if (Test-Path $notifierSource) {
-    if (-not (Test-Path $psmuxScriptsDir)) {
-        New-Item -ItemType Directory -Path $psmuxScriptsDir -Force | Out-Null
-    }
     Copy-Item $notifierSource (Join-Path $psmuxScriptsDir "Send-WindowsNotification.ps1") -Force
     Write-Host "Script Send-WindowsNotification.ps1 sincronizado em ~/.psmux/scripts" -ForegroundColor Green
+}
+
+$terminalNotifierSource = Join-Path $RepoRoot "scripts\Send-TerminalNotification.ps1"
+if (Test-Path $terminalNotifierSource) {
+    Copy-Item $terminalNotifierSource (Join-Path $psmuxScriptsDir "Send-TerminalNotification.ps1") -Force
+    Write-Host "Script Send-TerminalNotification.ps1 sincronizado em ~/.psmux/scripts" -ForegroundColor Green
 }
 
 $psmuxConf = "$HOME\.psmux.conf"
