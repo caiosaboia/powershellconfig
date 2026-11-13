@@ -14,7 +14,7 @@ working-directory = home
 copy-on-select = clipboard
 
 # Shell padrao
-command = C:\Program Files\PowerShell\7\pwsh.exe
+command = pwsh.exe -NoLogo
 
 # ------------------------------------------------------------------------------
 # Notificacoes e Integracao com Sistema / PSMux
