@@ -108,6 +108,21 @@ if (Test-Path $notifierSource) {
     Write-Host "Script Send-WindowsNotification.ps1 sincronizado em ~/.psmux/scripts" -ForegroundColor Green
 }
 
+$psmuxConf = "$HOME\.psmux.conf"
+if (Test-Path $psmuxConf) {
+    $confContent = Get-Content $psmuxConf -Raw
+    if ($confContent -match 'set -g prediction-dimming on') {
+        $confContent = $confContent -replace 'set -g prediction-dimming on', 'set -g prediction-dimming off'
+        Set-Content -Path $psmuxConf -Value $confContent -Encoding utf8 -Force
+        Write-Host "Configuracao prediction-dimming desativada em $psmuxConf (preserva cores customizadas de PSReadLine e FZF)" -ForegroundColor Green
+    }
+}
+if (Get-Command psmux -ErrorAction SilentlyContinue) {
+    try {
+        & psmux set-option -g prediction-dimming off 2>$null
+    } catch {}
+}
+
 # 7. Configurar $PROFILE
 Write-Host "`n[7/7] Apontando `$PROFILE para o repositorio..." -ForegroundColor Yellow
 $profileDirs = @(
