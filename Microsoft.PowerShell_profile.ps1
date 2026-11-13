@@ -169,19 +169,19 @@ if (Get-Module -ListAvailable PSReadLine) {
         Keyword            = '#b4befe' # Lavender
         Error              = '#f38ba8' # Red
         Default            = '#cdd6f4' # Text
-        InlinePrediction   = '#9399b2' # Overlay2 (cinza claro com boa visibilidade)
+        InlinePrediction   = '#bac2de' # Subtext1 (cinza bem claro e brilhante)
     }
 }
 
 # ------------------------------------------------------------------------------
 # 4. FZF & PSFzf (Integrado com fd, bat e eza)
 # ------------------------------------------------------------------------------
-# Cores Catppuccin Mocha para FZF
+# Cores Catppuccin Mocha para FZF (com contraste elevado)
 $env:FZF_DEFAULT_OPTS = @"
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc
+--color=bg+:#45475a,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8
+--color=fg:#bac2de,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc
 --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8
---color=selected-bg:#45475a
+--color=selected-bg:#585b70
 --height=50% --layout=reverse --border --inline-info
 "@
 
